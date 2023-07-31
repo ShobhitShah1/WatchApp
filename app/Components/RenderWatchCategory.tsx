@@ -40,8 +40,8 @@ const RenderWatchCategory: React.FC<RenderWatchCategoryProps> = React.memo(
 
 const styles = StyleSheet.create({
   WatchCategoryListView: {
-    justifyContent:'center',
-    alignSelf:'center',
+    justifyContent: "center",
+    alignSelf: "center",
     padding: Size(8),
     paddingHorizontal: Size(15),
     marginHorizontal: Size(10),

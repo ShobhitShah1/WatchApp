@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 import React, { useCallback, useRef, useState } from "react";
 import {
@@ -32,75 +31,70 @@ interface WatchCategoryItem {
   Icon: any;
   CategoryName: string;
   index: number;
+  image: any;
 }
-
+interface WatchItem {
+  index: number;
+}
 export default function WatchScreen() {
   const slideWidth = wp(70);
   const itemHorizontalMargin = wp(5);
-  const navigation = useNavigation();
   const sliderWidth = viewportWidth;
-  const itemWidth = slideWidth + itemHorizontalMargin - 70; //70
-
-  const [activeIndex, setActiveIndex] = useState<number>(1);
+  const itemWidth = slideWidth + itemHorizontalMargin - 70;
+  const CarouselRef = useRef<Carousel<WatchItem>>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(1); //! Active Slider Index (Rename this)
   const [CategoryIndex, setCategoryIndex] = useState<number>(0);
 
   const handleSnapToItem = useCallback((index: number) => {
     setActiveIndex(index);
   }, []);
 
-  const renderItem = useCallback(
-    ({ item }: { item: any }) => {
-      if (CategoryIndex === 0) {
-        return (
-          <TouchableOpacity activeOpacity={1}>
-            <MemoizedFastImage
-              key={item.id}
-              resizeMode={FastImage.resizeMode.contain}
-              style={styles.WatchImage}
-              source={item.image}
-            />
-          </TouchableOpacity>
-        );
-      }
-
-      if (CategoryIndex === 1) {
-        return (
-          <TouchableOpacity
-            activeOpacity={1}
-            style={{
-              height: Size(300),
-            }}
-          >
-            <MemoizedFastImage
-              key={item.id}
-              resizeMode={FastImage.resizeMode.contain}
-              style={styles.WatchImage}
-              source={item.image}
-            />
-          </TouchableOpacity>
-        );
-      }
-
-      if (CategoryIndex === 2) {
-        return (
-          <TouchableOpacity
-            activeOpacity={1}
-            style={{
-              height: Size(300),
-              justifyContent: "center",
-            }}
-          >
-            <MemoizedFastImage
-              key={item.id}
-              resizeMode={FastImage.resizeMode.contain}
-              style={styles.CaseImage}
-              source={item.image}
-            />
-          </TouchableOpacity>
+  const scrollToCenter = useCallback(
+    (index: number) => {
+      if (CarouselRef.current) {
+        const distance = Math.abs(index - activeIndex);
+        const shouldScrollLeft = index < activeIndex;
+        CarouselRef.current.snapToItem(
+          activeIndex + (shouldScrollLeft ? -distance : distance),
+          true,
+          true
         );
       }
     },
-    [CategoryIndex]
+    [activeIndex]
+  );
+
+  const renderItem = useCallback(
+    ({ item, index }: { item: WatchCategoryItem; index: number }) => {
+      let imageStyle = styles.WatchImage;
+
+      if (CategoryIndex === 0) {
+        // imageStyle = styles.SizeWatch;
+      } else if (CategoryIndex === 1) {
+        imageStyle = styles.CaseImage;
+      } else if (CategoryIndex === 2) {
+        imageStyle = styles.StrapStyle;
+      }
+
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            setActiveIndex(index);
+            scrollToCenter(index);
+          }}
+          style={{ height: Size(300) }}
+          activeOpacity={1}
+        >
+          <FastImage
+            key={item.id}
+            resizeMode={FastImage.resizeMode.contain}
+            style={imageStyle}
+            source={item.image}
+          />
+        </TouchableOpacity>
+      );
+    },
+    [CategoryIndex, scrollToCenter]
   );
 
   const renderCategoryItem = useCallback(
@@ -138,48 +132,57 @@ export default function WatchScreen() {
     >
       <BlurView intensity={SIZES.CardBlur} style={styles.WatchBlurView}>
         <View>
-          <View style={{ justifyContent: "center" }}>
+          <View style={{ height: Size(310) }}>
+            {CategoryIndex === 1 && (
+              <MemoizedFastImage
+                resizeMode={FastImage.resizeMode.contain}
+                style={styles.DisplayStapForCase}
+                source={Images.BlackStrap}
+              />
+            )}
             <MemoizedCarousel
+              ref={CarouselRef}
               data={selectedCategoryData}
-              containerCustomStyle={[styles.WatchCarouselView]}
+              containerCustomStyle={styles.WatchCarouselView}
               renderItem={renderItem}
               vertical={false}
               sliderWidth={sliderWidth}
               itemWidth={itemWidth}
-              firstItem={1}
+              firstItem={activeIndex}
               enableSnap={true}
               activeSlideAlignment="center"
               inactiveSlideOpacity={1}
               inactiveSlideScale={1}
               onSnapToItem={handleSnapToItem}
             />
-            {CategoryIndex === 1 && (
+            {CategoryIndex === 2 && (
               <MemoizedFastImage
                 resizeMode={FastImage.resizeMode.contain}
-                style={{
-                  position: "absolute",
-                  zIndex: 9999,
-                  width: "58%", // Adjust the width percentage as needed
-                  height: "58%", // Adjust the height percentage as needed
-                  top: "20%", // Adjust the top percentage as needed
-                  alignSelf: "center", // Align the image horizontally at the center
-                }}
-                source={WatchData.WatchRenderData.CaseImages[0].image}
+                style={styles.DisplayCaseForStrap}
+                source={Images.Case1}
               />
             )}
           </View>
-          <View style={styles.WatchPriceAndNameView}>
-            <Text style={styles.WatchNameText}>
-              {WatchData.WatchRenderData.WatchImages[activeIndex]?.name}
-            </Text>
-            <View style={styles.WatchPriceView}>
-              <Text style={styles.WatchPriceText}>
-                Price{" "}
-                <Text style={styles.WatchPrice}>
-                  {WatchData.WatchRenderData.WatchImages[activeIndex]?.price}
+
+          <View style={[styles.WatchPriceAndNameView]}>
+            {CategoryIndex === 0 && (
+              <React.Fragment>
+                <Text style={styles.WatchNameText}>
+                  {WatchData.WatchRenderData.WatchImages[activeIndex]?.name}
                 </Text>
-              </Text>
-            </View>
+                <View style={styles.WatchPriceView}>
+                  <Text style={styles.WatchPriceText}>
+                    Price{" "}
+                    <Text style={styles.WatchPrice}>
+                      {
+                        WatchData.WatchRenderData.WatchImages[activeIndex]
+                          ?.price
+                      }
+                    </Text>
+                  </Text>
+                </View>
+              </React.Fragment>
+            )}
           </View>
 
           {/* Centered FlatList */}

@@ -21,8 +21,10 @@ buildscript {
         classpath('com.facebook.react:react-native-gradle-plugin')
     }
 }
-
+ 
+ 
 allprojects {
+    
     repositories {
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
