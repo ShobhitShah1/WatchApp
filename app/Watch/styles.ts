@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
     zIndex: 9999,
     overflow: "visible",
   },
+  CarouselStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   WatchImage: {
     width: Size(300),
     height: Size(300),
@@ -27,50 +31,55 @@ const styles = StyleSheet.create({
     right: Size(10),
   },
   SizeWatch: {
-    // width: Size(315),
-    // height: Size(315),
-    // bottom: Size(10),
-    // justifyContent: "center",
-    // alignSelf: "center",
-    // right: Size(10),
-  },
-  CaseImage: {
-    width: Size(315),
+    width: "100%",
     height: Size(315),
     bottom: Size(10),
     justifyContent: "center",
     alignSelf: "center",
     right: Size(10),
-    // width: Size(315),
-    // height: Size(315),
-    // bottom: Size(10),
-    // justifyContent: "center",
-    // alignSelf: "center",
-    // right: Size(10),
   },
-  StrapStyle: {
-    width: Size(323),
-    height: Size(323),
+  CaseImage: {
+    width: Size(352),
+    height: Size(352),
+    bottom: Size(22),
     justifyContent: "center",
     alignSelf: "center",
+    right: Size(13),
+  },
+  StrapStyle: {
+    zIndex: -1,
+    width: Size(360),
+    height: Size(360),
+    bottom: Size(22),
+    justifyContent: "center",
+    alignSelf: "center",
+    right: Size(10),
+  },
+  RenderItemContainer: {
+    justifyContent: "center",
+    height: Size(350),
+    bottom: Size(20),
+    overflow: "visible",
     right: Size(10),
   },
   DisplayStapForCase: {
     position: "absolute",
     zIndex: 9999,
-    width: Size(323),
-    height: Size(323),
-    top: "-4%",
-    right: "-8.5%",
+    width: Size(360),
+    height: Size(360),
+    top: "-8.2%",
+    right: "-14%",
   },
   DisplayCaseForStrap: {
-    zIndex: 9999,
-    width: Size(320),
-    height: Size(320),
     position: "absolute",
-    top: "0%",
-    right: "-8%",
-    overflow: "visible",
+    width: Size(354),
+    height: Size(354),
+    bottom: Size(22),
+    justifyContent: "center",
+    alignSelf: "center",
+    zIndex: 9999,
+    top: "-6%",
+    right: "-14%",
   },
   WatchPriceAndNameView: {
     marginTop: SIZES.size50,
@@ -84,7 +93,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.h2,
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "bold", //* Remove When Family Come
+    fontWeight: "bold",
   },
   WatchPriceView: {
     margin: Size(10),
@@ -94,21 +103,20 @@ const styles = StyleSheet.create({
     fontSize: SIZES.h3,
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "bold", //* Remove When Family Come
+    fontWeight: "bold",
   },
   WatchPrice: {
     textAlign: "center",
     fontSize: SIZES.h3,
     fontFamily: FAMILY.Bold,
     color: COLORS.Red,
-    fontWeight: "bold", //* Remove When Family Come
+    fontWeight: "bold",
   },
   ShowWatchCategoryView: {
     zIndex: 9999,
     overflow: "visible",
   },
   WatchCategoryListView: {
-    // padding: Size(8),
     paddingHorizontal: Size(15),
     borderRadius: Size(20),
     marginHorizontal: Size(10),
@@ -119,7 +127,25 @@ const styles = StyleSheet.create({
     fontSize: SIZES.h4,
     fontFamily: FAMILY.Bold,
     color: COLORS.White,
-    fontWeight: "600", //* Remove When Family Come
+    fontWeight: "600",
+  },
+  CompleteOrderButton: {
+    justifyContent: "center",
+    alignSelf: "center",
+    padding: Size(8),
+    top: Size(23),
+    paddingHorizontal: Size(20),
+    paddingVertical: Size(13),
+    marginHorizontal: Size(40),
+    borderRadius: Size(20),
+    backgroundColor: "rgba(91, 88, 77, 1)",
+  },
+  CompleteOrderText: {
+    textAlign: "center",
+    fontSize: SIZES.h3,
+    fontFamily: FAMILY.Bold,
+    color: COLORS.White,
+    // fontWeight: "bold",
   },
 
   //? Detail Screen
@@ -206,7 +232,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.h2,
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "bold", //* Remove When Family Come
+    fontWeight: "bold",
   },
   WatchDetailCartButtonView: {
     justifyContent: "center",
@@ -229,14 +255,13 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderRadius: SIZES.radius,
     backgroundColor: COLORS.Black,
-    // Add the backgroundColor property above and set it to the desired color
   },
   WatchDetailBuyButto: {
     textAlign: "center",
     fontSize: SIZES.h3,
     fontFamily: FAMILY.Bold,
     color: COLORS.White,
-    fontWeight: "bold", //* Remove When Family Come
+    fontWeight: "bold",
   },
   WatchDetailInfoView: {
     width: "90%",
@@ -265,7 +290,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.h2,
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "bold", //* Remove When Family Come
+    fontWeight: "bold",
   },
   WatchDetailInfoCategoryView: {
     flexDirection: "row",
@@ -277,7 +302,7 @@ const styles = StyleSheet.create({
     marginRight: Size(10),
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "600", //* Remove When Family Come
+    fontWeight: "600",
     borderBottomColor: COLORS.Black,
   },
   WatchDetailInfoCategoryItemSep: {
@@ -298,7 +323,7 @@ const styles = StyleSheet.create({
     fontSize: Size(14),
     fontFamily: FAMILY.Bold,
     color: COLORS.AboutTextColor,
-    fontWeight: "600", //* Remove When Family Come
+    fontWeight: "600",
     lineHeight: Size(25),
   },
   WatchDetailSizeAndColorView: {
@@ -330,7 +355,7 @@ const styles = StyleSheet.create({
     fontSize: Size(14),
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "600", //* Remove When Family Come
+    fontWeight: "600",
     lineHeight: Size(25),
   },
   WatchDetailSizeContainer: {
@@ -352,7 +377,7 @@ const styles = StyleSheet.create({
     fontSize: Size(14),
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "600", //* Remove When Family Come
+    fontWeight: "600",
     lineHeight: Size(25),
   },
   WatchDetailColorScrollView: {
@@ -374,7 +399,7 @@ const styles = StyleSheet.create({
     fontSize: Size(12),
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "600", //* Remove When Family Come
+    fontWeight: "600",
     lineHeight: Size(25),
   },
   WatchDetailSizeStrapContainer: {
@@ -388,14 +413,14 @@ const styles = StyleSheet.create({
     fontSize: Size(15),
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "600", //* Remove When Family Come
+    fontWeight: "600",
     lineHeight: Size(25),
   },
   WatchDetailCategoryTitle: {
     fontSize: Size(15),
     fontFamily: FAMILY.Bold,
     color: COLORS.Black,
-    fontWeight: "600", //* Remove When Family Come
+    fontWeight: "600",
     lineHeight: Size(25),
     textDecorationLine: "underline",
   },

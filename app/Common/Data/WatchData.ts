@@ -4,21 +4,24 @@ const WatchRenderData = {
   WatchImages: [
     {
       id: 0,
-      image: Images.WatchBig,
-      name: "44mm case",
-      price: "$600",
+      image: Images.WatchSmall,
+      name: "22mm case",
+      price: "$200",
+      size: 'small'
     },
     {
       id: 1,
       image: Images.WatchMedium,
       name: "33mm case",
-      price: "$1000",
+      price: "$400",
+      size: 'medium'
     },
     {
       id: 2,
-      image: Images.WatchSmall,
-      name: "22mm case",
-      price: "$200",
+      image: Images.WatchBig,
+      name: "44mm case",
+      price: "$800",
+      size: 'big'
     },
   ],
   CaseImages: [

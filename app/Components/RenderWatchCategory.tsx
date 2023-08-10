@@ -23,7 +23,6 @@ const RenderWatchCategory: React.FC<RenderWatchCategoryProps> = React.memo(
     return (
       <TouchableOpacity
         onPress={() => {
-          // console.log(index);
           setCategoryIndex(index);
         }}
         key={item.id}

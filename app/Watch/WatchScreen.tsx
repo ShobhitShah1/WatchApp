@@ -1,5 +1,5 @@
 import { BlurView } from "expo-blur";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   FlatList,
@@ -16,6 +16,8 @@ import { Size } from "../Common/Size";
 import { SIZES } from "../Common/Theme";
 import RenderWatchCategory from "../Components/RenderWatchCategory";
 import styles from "./styles";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 const { width: viewportWidth } = Dimensions.get("screen");
 
 const MemoizedCarousel = React.memo(Carousel);
@@ -25,13 +27,13 @@ function wp(percentage: number) {
   const value = (percentage * viewportWidth) / 100;
   return Math.round(value);
 }
-
 interface WatchCategoryItem {
   id: number;
   Icon: any;
   CategoryName: string;
   index: number;
   image: any;
+  size: string;
 }
 interface WatchItem {
   index: number;
@@ -40,10 +42,23 @@ export default function WatchScreen() {
   const slideWidth = wp(70);
   const itemHorizontalMargin = wp(5);
   const sliderWidth = viewportWidth;
-  const itemWidth = slideWidth + itemHorizontalMargin - 70;
   const CarouselRef = useRef<Carousel<WatchItem>>(null);
   const [activeIndex, setActiveIndex] = useState<number>(1); //! Active Slider Index (Rename this)
   const [CategoryIndex, setCategoryIndex] = useState<number>(0);
+  let Value = CategoryIndex === 0 ? 70 : 25;
+  const itemWidth = slideWidth + itemHorizontalMargin - Value; //70
+  const navigation =
+  useNavigation<NativeStackNavigationProp<{WatchDetail: {}}>>();
+  useEffect(() => {
+    setActiveIndex(0);
+    if (CarouselRef.current) {
+      CarouselRef.current.snapToItem(1);
+    }
+  }, [CategoryIndex]);
+
+  const onRandomPick = () => {
+    CarouselRef.current.snapToItem(Math.floor(Math.random() * 10) + 1);
+  };
 
   const handleSnapToItem = useCallback((index: number) => {
     setActiveIndex(index);
@@ -65,11 +80,17 @@ export default function WatchScreen() {
   );
 
   const renderItem = useCallback(
-    ({ item, index }: { item: WatchCategoryItem; index: number }) => {
-      let imageStyle = styles.WatchImage;
+    ({ item, index }: { item: WatchCategoryItem | any; index: number }) => {
+      let imageStyle: any;
+      const WatchHeightStyle =
+        item.size === "big"
+          ? Size(300)
+          : item.size === "medium"
+          ? Size(280)
+          : Size(260);
 
       if (CategoryIndex === 0) {
-        // imageStyle = styles.SizeWatch;
+        imageStyle = [styles.WatchImage, { height: WatchHeightStyle }];
       } else if (CategoryIndex === 1) {
         imageStyle = styles.CaseImage;
       } else if (CategoryIndex === 2) {
@@ -82,19 +103,21 @@ export default function WatchScreen() {
             setActiveIndex(index);
             scrollToCenter(index);
           }}
-          style={{ height: Size(300) }}
+          style={CategoryIndex === 0 ? styles.RenderItemContainer : null}
           activeOpacity={1}
         >
-          <FastImage
-            key={item.id}
-            resizeMode={FastImage.resizeMode.contain}
-            style={imageStyle}
-            source={item.image}
-          />
+          <View>
+            <FastImage
+              key={item.id}
+              resizeMode={FastImage.resizeMode.contain}
+              style={imageStyle}
+              source={item.image}
+            />
+          </View>
         </TouchableOpacity>
       );
     },
-    [CategoryIndex, scrollToCenter]
+    [CategoryIndex, scrollToCenter, activeIndex]
   );
 
   const renderCategoryItem = useCallback(
@@ -131,6 +154,13 @@ export default function WatchScreen() {
       source={Images.WatchBackgroud}
     >
       <BlurView intensity={SIZES.CardBlur} style={styles.WatchBlurView}>
+        <TouchableOpacity
+          onPress={() => onRandomPick()}
+          style={{ position: "absolute", top: 10, right: 10 }}
+        >
+          <Text>Click For Random Pick</Text>
+        </TouchableOpacity>
+
         <View>
           <View style={{ height: Size(310) }}>
             {CategoryIndex === 1 && (
@@ -143,6 +173,7 @@ export default function WatchScreen() {
             <MemoizedCarousel
               ref={CarouselRef}
               data={selectedCategoryData}
+              style={styles.CarouselStyle}
               containerCustomStyle={styles.WatchCarouselView}
               renderItem={renderItem}
               vertical={false}
@@ -200,6 +231,16 @@ export default function WatchScreen() {
               renderItem={renderCategoryItem}
             />
           </View>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              navigation.navigate('WatchDetail')
+            }}
+            style={styles.CompleteOrderButton}
+          >
+            <Text style={styles.CompleteOrderText}>Complete your order</Text>
+          </TouchableOpacity>
         </View>
       </BlurView>
     </ImageBackground>
