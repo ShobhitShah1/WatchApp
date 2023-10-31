@@ -1,4 +1,4 @@
-const WatchBackgroud = require("../../assets/Images/WatchBackgroud.png");
+const WatchBackground = require("../../assets/Images/WatchBackground.png");
 const WatchShowCase = require("../../assets/Images/WatchShowCase.png");
 
 // Watch Detail Images
@@ -38,7 +38,7 @@ const Case9 = require("../../assets/Images/Case/Case9.png");
 const Case10 = require("../../assets/Images/Case/Case10.png");
 
 export default {
-  WatchBackgroud,
+  WatchBackground,
   WatchShowCase,
   WatchDetailMain,
   WatchDetailBack,

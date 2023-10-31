@@ -3,7 +3,7 @@ import { COLORS, FAMILY, SIZES } from "../Common/Theme";
 import { Size } from "../Common/Size";
 
 const styles = StyleSheet.create({
-  WatchImageBackgroud: {
+  WatchImageBackground: {
     flex: 1,
     justifyContent: "center",
     width: "100%",

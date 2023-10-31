@@ -1,25 +1,24 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { BlurView } from "expo-blur";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   FlatList,
   ImageBackground,
-  PanResponder,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import Carousel from "react-native-snap-carousel";
+import { WatchCategoryItem } from "../@Types/WatchCategoryItem";
 import WatchData from "../Common/Data/WatchData";
 import Images from "../Common/Images";
 import { Size } from "../Common/Size";
 import { SIZES } from "../Common/Theme";
 import RenderWatchCategory from "../Components/RenderWatchCategory";
 import styles from "./styles";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { WatchCategoryItem } from "../@Types/WatchCategoryItem";
 const { width: viewportWidth } = Dimensions.get("screen");
 
 const MemoizedCarousel = React.memo(Carousel);
@@ -144,8 +143,8 @@ export default function WatchScreen() {
 
   return (
     <ImageBackground
-      style={styles.WatchImageBackgroud}
-      source={Images.WatchBackgroud}>
+      style={styles.WatchImageBackground}
+      source={Images.WatchBackground}>
       <BlurView intensity={SIZES.CardBlur} style={styles.WatchBlurView}>
         <View>
           <View style={{ height: Size(310) }}>
