@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
     top: "-8.2%",
     right: "-14%",
   },
-  DisplayCaseForStrap: {
+  DisplayCaseForStrap: { 
+    pointerEvents:"none",
     position: "absolute",
     width: Size(354),
     height: Size(354),

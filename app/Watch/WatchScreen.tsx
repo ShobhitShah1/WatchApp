@@ -4,6 +4,7 @@ import {
   Dimensions,
   FlatList,
   ImageBackground,
+  PanResponder,
   Text,
   TouchableOpacity,
   View,
@@ -18,6 +19,7 @@ import RenderWatchCategory from "../Components/RenderWatchCategory";
 import styles from "./styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { WatchCategoryItem } from "../@Types/WatchCategoryItem";
 const { width: viewportWidth } = Dimensions.get("screen");
 
 const MemoizedCarousel = React.memo(Carousel);
@@ -27,14 +29,7 @@ function wp(percentage: number) {
   const value = (percentage * viewportWidth) / 100;
   return Math.round(value);
 }
-interface WatchCategoryItem {
-  id: number;
-  Icon: any;
-  CategoryName: string;
-  index: number;
-  image: any;
-  size: string;
-}
+
 interface WatchItem {
   index: number;
 }
@@ -48,7 +43,7 @@ export default function WatchScreen() {
   let Value = CategoryIndex === 0 ? 70 : 25;
   const itemWidth = slideWidth + itemHorizontalMargin - Value; //70
   const navigation =
-  useNavigation<NativeStackNavigationProp<{WatchDetail: {}}>>();
+    useNavigation<NativeStackNavigationProp<{ WatchDetail: {} }>>();
   useEffect(() => {
     setActiveIndex(0);
     if (CarouselRef.current) {
@@ -104,8 +99,7 @@ export default function WatchScreen() {
             scrollToCenter(index);
           }}
           style={CategoryIndex === 0 ? styles.RenderItemContainer : null}
-          activeOpacity={1}
-        >
+          activeOpacity={1}>
           <View>
             <FastImage
               key={item.id}
@@ -151,16 +145,8 @@ export default function WatchScreen() {
   return (
     <ImageBackground
       style={styles.WatchImageBackgroud}
-      source={Images.WatchBackgroud}
-    >
+      source={Images.WatchBackgroud}>
       <BlurView intensity={SIZES.CardBlur} style={styles.WatchBlurView}>
-        <TouchableOpacity
-          onPress={() => onRandomPick()}
-          style={{ position: "absolute", top: 10, right: 10 }}
-        >
-          <Text>Click For Random Pick</Text>
-        </TouchableOpacity>
-
         <View>
           <View style={{ height: Size(310) }}>
             {CategoryIndex === 1 && (
@@ -170,6 +156,7 @@ export default function WatchScreen() {
                 source={Images.BlackStrap}
               />
             )}
+
             <MemoizedCarousel
               ref={CarouselRef}
               data={selectedCategoryData}
@@ -186,8 +173,10 @@ export default function WatchScreen() {
               inactiveSlideScale={1}
               onSnapToItem={handleSnapToItem}
             />
+
             {CategoryIndex === 2 && (
               <MemoizedFastImage
+                pointerEvents="none"
                 resizeMode={FastImage.resizeMode.contain}
                 style={styles.DisplayCaseForStrap}
                 source={Images.Case1}
@@ -216,7 +205,6 @@ export default function WatchScreen() {
             )}
           </View>
 
-          {/* Centered FlatList */}
           <View>
             <FlatList
               ref={flatListRef}
@@ -235,10 +223,9 @@ export default function WatchScreen() {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => {
-              navigation.navigate('WatchDetail')
+              navigation.navigate("WatchDetail");
             }}
-            style={styles.CompleteOrderButton}
-          >
+            style={styles.CompleteOrderButton}>
             <Text style={styles.CompleteOrderText}>Complete your order</Text>
           </TouchableOpacity>
         </View>

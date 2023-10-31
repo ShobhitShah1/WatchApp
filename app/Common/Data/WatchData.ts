@@ -130,7 +130,7 @@ const WatchCategoryList = [
   {
     id: 1,
     key: 1,
-    CategoryName: "Carbon fiber case Carbon fiber case",
+    CategoryName: "Carbon fiber case",
     Icon: Images.WatchBig,
   },
   {
